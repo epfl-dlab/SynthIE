@@ -1,0 +1,18 @@
+# @package _global_
+
+# disables the callbacks and the loggers
+# runs `num_batches` train, validation and test steps
+
+# ideal for fast debugging
+
+defaults:
+  - default_run
+
+trainer:
+  fast_dev_run: ${num_batches}
+
+# Checkpoint should be provided for debugging inference scripts
+#model:
+#  checkpoint_path: null
+
+num_batches: 5

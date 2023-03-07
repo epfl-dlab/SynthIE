@@ -1,0 +1,11 @@
+# @package _global_
+
+defaults:
+  - override /metric:
+      - triplet_set_precision
+      - triplet_set_recall
+      - triplet_set_f1
+
+confidence_level: 0.95
+bootstrap_n: 50 # set to null to disable bootstrapping
+num_workers: 10

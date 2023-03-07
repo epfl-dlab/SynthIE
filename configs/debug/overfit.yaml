@@ -1,0 +1,19 @@
+# @package _global_
+
+# runs `num_steps` of training with `num_validation_runs` validation cycles
+# uses the same (first) `num_batches` batches of the training dataloader for both training and validation
+
+defaults:
+  - default.yaml
+
+datamodule:
+  debug_k: ${mult_int:${.batch_size}, ${num_batches}}
+
+trainer:
+  max_steps: ${num_steps}
+  overfit_batches: ${num_batches}
+  val_check_interval: ${floor_div:${num_steps}, ${num_validation_runs}}
+
+num_steps: 100
+num_batches: 5
+num_validation_runs: 2

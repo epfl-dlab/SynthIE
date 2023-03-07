@@ -1,0 +1,34 @@
+defaults:
+  - optimizer: adam_w
+  - scheduler: polynomial
+  - constrained_module: null
+
+_target_: src.models.GenIEFlanT5PL
+
+from_pretrained: True
+hparams_overrides: null
+hf_config_overrides: null
+
+linearization_class_id: ${datamodule.linearization_class_id}
+
+default_collator_parameters:
+  max_input_length: ${datamodule.max_num_tokens_input}
+  max_output_length: ${datamodule.max_num_tokens_target}
+  padding: "longest"
+  truncation: True
+
+inference:
+  hf_generation_params:
+    num_beams: 10
+    num_return_sequences: ${.num_beams}
+
+    early_stopping: False
+
+    encoder_no_repeat_ngram_size: 0
+    no_repeat_ngram_size: 0
+
+    temperature: 1.0
+    length_penalty: 1.0
+    max_new_tokens: 256
+
+eps: 0.1

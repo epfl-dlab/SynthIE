@@ -1,0 +1,115 @@
+data_dir: null # the specific dataset's local directory (if it applies)
+cache_dir: ${data_dir}/.cache # The default is ~/.cache/huggingface/datasets
+
+constrained_world: null
+path_to_constrained_world_dir: null
+constrained_worlds_dir: ${data_dir}/constrained_worlds
+
+debug: False
+debug_k: 12
+
+seed: ${seed}
+
+_target_: ??? # the datamodule class
+batch_size: ??? # batch_size needs to be specified
+num_workers: ??? # num_workers needs to be specified
+
+# either dataset_target_ or dataset_parameters.*.dataset._target_ must be overloaded
+dataset_target_: null # the pytorch dataset class
+
+apply_ordering_heuristic: ???
+filter_on_num_tokens: ???
+max_num_tokens_input: 256
+max_num_tokens_target: 256
+linearization_class_id: ???
+# update below to filter the datapoints based on a different linearization class for the target
+# useful to maintain comparable settings if we want to compare the performance of different linearization types
+linearization_class_id_for_filtering: ${datamodule.linearization_class_id}
+compute_frequency_dicts: False
+count_datapoints_with_unk_in_target: False
+verify_triplet_ordering: False
+gzipped: ???
+name: ???
+
+dataset_parameters:
+  test:
+    dataset:
+      _target_: ${datamodule.dataset_target_}
+      name: ${datamodule.name}
+      seed: ${datamodule.seed}
+      debug: ${datamodule.debug}
+      debug_k: ${datamodule.debug_k}
+      constrained_world: ${datamodule.constrained_world}
+      path_to_constrained_world_dir: ${datamodule.path_to_constrained_world_dir}
+      constrained_worlds_dir: ${datamodule.constrained_worlds_dir}
+      linearization_class_id: ${datamodule.linearization_class_id}
+      linearization_class_id_for_filtering: ${datamodule.linearization_class_id_for_filtering}
+      max_num_tokens_input: ${datamodule.max_num_tokens_input}
+      max_num_tokens_target: ${datamodule.max_num_tokens_target}
+      compute_frequency_dicts: ${datamodule.compute_frequency_dicts}
+      count_datapoints_with_unk_in_target: ${datamodule.count_datapoints_with_unk_in_target}
+      verify_triplet_ordering: ${datamodule.verify_triplet_ordering}
+      load_dataset_params:
+        split: "test"
+        data_dir: ${datamodule.data_dir}
+        filter_on_num_tokens: ${datamodule.filter_on_num_tokens}
+        apply_ordering_heuristic: ${datamodule.apply_ordering_heuristic}
+        gzipped: ${datamodule.gzipped}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+  train:
+    dataset:
+      _target_: ${datamodule.dataset_target_}
+      name: ${datamodule.name}
+      seed: ${datamodule.seed}
+      debug: ${datamodule.debug}
+      debug_k: ${datamodule.debug_k}
+      constrained_world: ${datamodule.constrained_world}
+      path_to_constrained_world_dir: ${datamodule.path_to_constrained_world_dir}
+      constrained_worlds_dir: ${datamodule.constrained_worlds_dir}
+      linearization_class_id: ${datamodule.linearization_class_id}
+      linearization_class_id_for_filtering: ${datamodule.linearization_class_id_for_filtering}
+      max_num_tokens_input: ${datamodule.max_num_tokens_input}
+      max_num_tokens_target: ${datamodule.max_num_tokens_target}
+      compute_frequency_dicts: ${datamodule.compute_frequency_dicts}
+      count_datapoints_with_unk_in_target: ${datamodule.count_datapoints_with_unk_in_target}
+      verify_triplet_ordering: ${datamodule.verify_triplet_ordering}
+      load_dataset_params:
+        split: "train"
+        data_dir: ${datamodule.data_dir}
+        filter_on_num_tokens: ${datamodule.filter_on_num_tokens}
+        apply_ordering_heuristic: ${datamodule.apply_ordering_heuristic}
+        gzipped: ${datamodule.gzipped}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}
+  val:
+    dataset:
+      _target_: ${datamodule.dataset_target_}
+      name: ${datamodule.name}
+      seed: ${datamodule.seed}
+      debug: ${datamodule.debug}
+      debug_k: ${datamodule.debug_k}
+      constrained_world: ${datamodule.constrained_world}
+      path_to_constrained_world_dir: ${datamodule.path_to_constrained_world_dir}
+      constrained_worlds_dir: ${datamodule.constrained_worlds_dir}
+      linearization_class_id: ${datamodule.linearization_class_id}
+      linearization_class_id_for_filtering: ${datamodule.linearization_class_id_for_filtering}
+      max_num_tokens_input: ${datamodule.max_num_tokens_input}
+      max_num_tokens_target: ${datamodule.max_num_tokens_target}
+      compute_frequency_dicts: ${datamodule.compute_frequency_dicts}
+      count_datapoints_with_unk_in_target: ${datamodule.count_datapoints_with_unk_in_target}
+      verify_triplet_ordering: ${datamodule.verify_triplet_ordering}
+      load_dataset_params:
+        split: "val"
+        data_dir: ${datamodule.data_dir}
+        filter_on_num_tokens: ${datamodule.filter_on_num_tokens}
+        apply_ordering_heuristic: ${datamodule.apply_ordering_heuristic}
+        gzipped: ${datamodule.gzipped}
+
+    dataloader:
+      batch_size: ${datamodule.batch_size}
+      num_workers: ${datamodule.num_workers}

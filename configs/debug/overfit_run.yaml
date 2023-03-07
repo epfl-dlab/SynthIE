@@ -1,0 +1,21 @@
+# @package _global_
+
+# runs 10 epochs of training, and 1 validation
+# each with the same, limited number of `num_batches` batches
+
+defaults:
+  - default_run
+
+datamodule:
+  debug_k: ${mult_int:${.batch_size}, ${num_batches}}
+
+trainer:
+  max_steps: ${num_steps}
+  overfit_batches: ${num_batches}
+  val_check_interval: ${floor_div:${num_steps}, ${num_validation_runs}}
+
+num_steps: 50
+num_batches: 2
+num_validation_runs: 1
+
+test: true

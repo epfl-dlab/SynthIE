@@ -1,0 +1,2 @@
+triplet_set_f1:
+  _target_: src.metrics.TSF1

@@ -1,0 +1,5 @@
+_target_: src.datamodules.IEGenericOutputDataset
+data_dir: null # Will be set at runtime
+linearization_class_id: null # Will be set at runtime
+
+seed: ${seed}

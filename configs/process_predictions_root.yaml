@@ -1,0 +1,36 @@
+# @package _global_
+
+defaults:
+  - hydra: process_predictions
+  - metric: ???
+  - /datamodule@output_dataset: out_ie_generic
+
+  - optional local: default
+  - _self_
+
+wandb_run_path: ???
+
+linearization_class_id: null # null => read the linearization class from the inference run's datamodule
+override: False
+silent: True
+
+# path to work directory
+work_dir: ${hydra:runtime.cwd}
+
+# path to data directory
+data_dir: ${work_dir}/data
+
+# path to output directory, created dynamically by hydra
+output_dir: ${hydra:runtime.output_dir}
+
+ignore_warnings: False
+print_config: True
+
+# Seed used to seed everything in the beginning of the run script and to fix randomness in dataset
+seed: 100
+
+# determines the log directory's parent folder
+logs_subfolder: process_predictions
+
+# determines the log directory's identifier
+run_name: results_${get_wandb_run_name:${wandb_run_path}, ${hydra:job.env_set.WANDB_API_KEY}}

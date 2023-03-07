@@ -1,0 +1,25 @@
+# @package _global_
+
+defaults:
+  - _default
+  - _default_max_rebel_t5 # T5 tokenizeable world + constrained decoding
+
+datamodule:
+  linearization_class_id: "subject_collapsed"
+  linearization_class_id_for_filtering: "fully_expanded"
+  count_datapoints_with_unk_in_target: False
+  verify_triplet_ordering: False
+
+  dataset_parameters:
+    train: null
+
+model:
+  _target_: src.models.GenIEFlanT5PL.load_from_checkpoint
+  checkpoint_path: ${data_dir}/models/synthie_base_sc.ckpt
+  hparams_overrides:
+    inference:
+      hf_generation_params:
+        length_penalty: 0.6
+
+run_name_prefix: ""
+run_name: ${run_name_prefix}synthie_base_sc_datamodule-${datamodule.name}_world-${datamodule.constrained_world}_split-${datamodule.dataset_parameters.test.dataset.load_dataset_params.split}_constraint-${get_constraint_module_id:${model.constraint_module}}_lp-${model.hparams_overrides.inference.hf_generation_params.length_penalty}

@@ -1,0 +1,7 @@
+# @package _global_
+
+defaults:
+  - _default
+  - _macro
+  - _bucket_rebel
+  - _bucket_num_target_triplets

@@ -1,0 +1,37 @@
+# @package _global_
+
+# default debugging setup which runs for 100 steps – a starting point for the other debug configs
+
+defaults:
+  - override /hydra: debug
+
+num_steps: 100
+num_validation_runs: 3
+
+trainer:
+  max_steps: ${num_steps}
+  accelerator: "cpu"
+  strategy: null
+  devices: 1 # debuggers don't like multiprocessing
+  replace_sampler_ddp: False # debuggers don't like anything distributed
+  gpus: 0 # debuggers don't like gpus
+  # track_grad_norm: -1 # track gradient norm with loggers (a lot of plots)
+  val_check_interval: ${floor_div:${num_steps}, ${num_validation_runs}}
+  detect_anomaly: true # raise exception if NaN or +/-inf is detected in any tensor
+
+datamodule:
+  debug: True
+  num_workers: 0 # debuggers don't like multiprocessing
+  pin_memory: False # disable gpu memory pin
+
+# sets level of all command line loggers to 'DEBUG'
+# https://hydra.cc/docs/tutorials/basic/running_your_app/logging/
+hydra:
+  job_logging:
+    root:
+      level: DEBUG
+  # use this to also set hydra loggers to 'DEBUG'
+  # verbose: True
+
+# config is already printed by hydra when `hydra/verbose: True`
+print_config: True

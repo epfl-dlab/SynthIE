@@ -1,0 +1,24 @@
+defaults:
+  - override /datamodule: ???
+  - override /model: from_ckpt
+  - override /trainer: single_gpu
+
+trainer:
+  accumulate_grad_batches: 1
+  max_steps: -1
+
+model:
+  hparams_overrides:
+    inference:
+      verbose_flag_in_convert_to_triple: True
+      hf_generation_params:
+        max_new_tokens: 256
+        num_beams: 10
+        num_return_sequences: 3
+        early_stopping: False
+
+        encoder_no_repeat_ngram_size: 0
+        no_repeat_ngram_size: 0
+
+        temperature: 1.0
+        length_penalty: 1.0

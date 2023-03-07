@@ -1,0 +1,17 @@
+# @package _global_
+
+defaults:
+  - synthie_large_fe
+  - override /model: flan_t5_base
+
+# the parameters below will be merged with parameters from the default configurations set above
+# this allows you to overwrite only a small/specific set of parameters
+datamodule:
+  batch_size: 6
+
+trainer:
+  devices: 4
+  accumulate_grad_batches: 107 # x bs x devices = 107 * 6 * 4 = 2568
+
+# name of the run determines folder name in logs
+run_name: "synthie_base_fe"

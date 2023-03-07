@@ -1,0 +1,14 @@
+defaults:
+  - sdg_code_davinci_002_pc
+
+data_dir: ${data_dir}/processed/${.name}
+
+filter_on_num_tokens: True
+apply_ordering_heuristic: False # We will load a dataset that is already ordered
+gzipped: True
+
+dataset_parameters:
+  test:
+    dataset:
+      load_dataset_params:
+        split: "test_small_ordered"

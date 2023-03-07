@@ -1,0 +1,13 @@
+_target_: src.constrained_generation.IEConstrainedGeneration.from_constrained_world
+path_to_trie_cache_dir: ${data_dir}/.cache
+
+path_to_relid2name_mapping: ${data_dir}/id2name_mappings/relation_mapping.jsonl
+path_to_entid2name_mapping: ${data_dir}/id2name_mappings/entity_mapping.jsonl
+
+constrained_worlds_dir: ${data_dir}/constrained_worlds
+constrained_world_id: null
+
+path_to_constrained_world_dir: null
+override: false
+
+linearization_class_id: ???

@@ -1,0 +1,21 @@
+# @package _global_
+
+# default debugging setup which runs for 100 steps – a starting point for the other configs
+# same as default without overriding any accelerators' parameters
+
+defaults:
+  - override /hydra: debug
+
+num_steps: 50
+num_validation_runs: 1
+
+trainer:
+  max_steps: ${num_steps}
+  val_check_interval: ${floor_div:${num_steps}, ${num_validation_runs}}
+  detect_anomaly: true # raise exception if NaN or +/-inf is detected in any tensor
+
+datamodule:
+  debug: True
+
+# config is already printed by hydra when `hydra/verbose: True`
+print_config: True

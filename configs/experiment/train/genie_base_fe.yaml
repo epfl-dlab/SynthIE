@@ -1,0 +1,86 @@
+# @package _global_
+
+defaults:
+  - override /datamodule: rebel_pc
+  - override /model: flan_t5_base
+  - override /trainer: ddp
+  - override /logger: wandb
+
+# the parameters below will be merged with parameters from the default configurations set above
+# this allows you to overwrite only a small/specific set of parameters
+datamodule:
+  batch_size: 6
+
+  linearization_class_id: fully_expanded
+  constrained_world: "genie_t5_tokenizeable"
+
+  count_datapoints_with_unk_in_target: True
+  verify_triplet_ordering: False
+
+  dataset_parameters:
+    val:
+      datasets:
+        - ${datamodule.dataset_parameters.val.dataset} # rebel (model is chosen based on the first dataset)
+        - _target_: ${datamodule.dataset_target_} # text-davinci
+          name: "sdg_text_davinci_003"
+          seed: ${datamodule.seed}
+          debug: ${datamodule.debug}
+          debug_k: ${datamodule.debug_k}
+          constrained_world: ${datamodule.constrained_world}
+          path_to_constrained_world_dir: ${datamodule.path_to_constrained_world_dir}
+          constrained_worlds_dir: ${datamodule.constrained_worlds_dir}
+          linearization_class_id: ${datamodule.linearization_class_id}
+          linearization_class_id_for_filtering: ${datamodule.linearization_class_id_for_filtering}
+          max_num_tokens_input: ${datamodule.max_num_tokens_input}
+          max_num_tokens_target: ${datamodule.max_num_tokens_target}
+          compute_frequency_dicts: ${datamodule.compute_frequency_dicts}
+          count_datapoints_with_unk_in_target: ${datamodule.count_datapoints_with_unk_in_target}
+          verify_triplet_ordering: ${datamodule.verify_triplet_ordering}
+          load_dataset_params:
+            split: "val_ordered"
+            data_dir: ${data_dir}/final_pre_computed/${..name}
+            filter_on_num_tokens: ${datamodule.filter_on_num_tokens}
+            apply_ordering_heuristic: ${datamodule.apply_ordering_heuristic}
+            gzipped: ${datamodule.gzipped}
+        - _target_: ${datamodule.dataset_target_} # code-davinci
+          name: "sdg_code_davinci_002"
+          seed: ${datamodule.seed}
+          debug: ${datamodule.debug}
+          debug_k: ${datamodule.debug_k}
+          constrained_world: ${datamodule.constrained_world}
+          path_to_constrained_world_dir: ${datamodule.path_to_constrained_world_dir}
+          constrained_worlds_dir: ${datamodule.constrained_worlds_dir}
+          linearization_class_id: ${datamodule.linearization_class_id}
+          linearization_class_id_for_filtering: ${datamodule.linearization_class_id_for_filtering}
+          max_num_tokens_input: ${datamodule.max_num_tokens_input}
+          max_num_tokens_target: ${datamodule.max_num_tokens_target}
+          compute_frequency_dicts: ${datamodule.compute_frequency_dicts}
+          count_datapoints_with_unk_in_target: ${datamodule.count_datapoints_with_unk_in_target}
+          verify_triplet_ordering: ${datamodule.verify_triplet_ordering}
+          load_dataset_params:
+            split: "val_ordered"
+            data_dir: ${data_dir}/final_pre_computed/${..name}
+            filter_on_num_tokens: ${datamodule.filter_on_num_tokens}
+            apply_ordering_heuristic: ${datamodule.apply_ordering_heuristic}
+            gzipped: ${datamodule.gzipped}
+
+trainer:
+  devices: 4
+  accumulate_grad_batches: 107 # x bs x devices = 107 * 6 * 4 = 2568
+  max_steps: 8000
+  val_check_interval: ${mult_int:${.accumulate_grad_batches}, 800} # number of training steps between validation runs
+  strategy: "ddp_find_unused_parameters_false"
+
+model:
+  optimizer:
+    lr: 3.0e-04
+    adam_eps: 1.0e-08
+    weight_decay: 0.05
+  scheduler:
+    name: polynomial
+    lr_end: 3.0e-05
+    warmup_updates: 1000
+    total_num_updates: ${trainer.max_steps}
+
+# name of the run determines folder name in logs
+run_name: "genie_base_fe"

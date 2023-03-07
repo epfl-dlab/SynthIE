@@ -1,0 +1,22 @@
+defaults:
+  - rebel
+
+data_dir: ${data_dir}/processed/${.name}
+
+filter_on_num_tokens: True
+apply_ordering_heuristic: False # We will load a dataset that is already ordered
+gzipped: True
+
+dataset_parameters:
+  train:
+    dataset:
+      load_dataset_params:
+        split: "train"
+  val:
+    dataset:
+      load_dataset_params:
+        split: "val"
+  test:
+    dataset:
+      load_dataset_params:
+        split: "test"

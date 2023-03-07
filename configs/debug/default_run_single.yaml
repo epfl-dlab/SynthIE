@@ -1,0 +1,17 @@
+# @package _global_
+
+# default debugging setup which runs for 100 steps – a starting point for the other configs
+# same as default without overriding any accelerators' parameters
+
+defaults:
+  - override /hydra: debug
+  - default_run_ddp
+
+num_steps: 20
+num_validation_runs: 2
+
+trainer:
+  accelerator: "gpu"
+  devices: 1
+  accumulate_grad_batches: 2
+  max_steps: ${num_steps}

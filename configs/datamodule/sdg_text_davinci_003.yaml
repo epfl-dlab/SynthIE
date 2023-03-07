@@ -1,0 +1,14 @@
+defaults:
+  - _default
+
+name: "sdg_text_davinci_003"
+_target_: src.datamodules.IEGenericDataModule
+batch_size: 4
+num_workers: 12
+
+dataset_target_: src.datamodules.IEGenericDataset
+data_dir: ${data_dir}/sdg_text_davinci_003
+
+filter_on_num_tokens: True
+apply_ordering_heuristic: True
+gzipped: True

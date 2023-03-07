@@ -1,0 +1,12 @@
+# @package _global_
+
+defaults:
+  - genie_base_fe
+
+# the parameters below will be merged with parameters from the default configurations set above
+# this allows you to overwrite only a small/specific set of parameters
+datamodule:
+  linearization_class_id: subject_collapsed
+
+# name of the run determines folder name in logs
+run_name: "genie_base_sc"

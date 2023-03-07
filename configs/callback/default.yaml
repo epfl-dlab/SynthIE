@@ -1,0 +1,15 @@
+model_checkpoint:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  monitor: "val/nll_loss_dl-0" # name of the logged metric which determines when model is improving
+  mode: "min" # can be "max" or "min"
+  save_top_k: 2 # save k best models (determined by above metric)
+  save_last: True # additionally always save model from last epoch
+  verbose: False
+  dirpath: ${hydra:runtime.output_dir}/checkpoints/
+  filename: "model-epoch_{epoch:03d}-step_{step:04d}-val_nll-{val/nll_loss_dl-0:.4f}"
+  save_on_train_epoch_end: False
+  auto_insert_metric_name: False
+
+learning_rate_monitor:
+  _target_: pytorch_lightning.callbacks.LearningRateMonitor
+  logging_interval: "step"

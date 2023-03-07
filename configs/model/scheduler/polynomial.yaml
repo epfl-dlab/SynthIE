@@ -1,0 +1,4 @@
+name: "polynomial"
+lr_end: 0.0
+warmup_updates: 1000
+total_num_updates: ${trainer.max_steps}

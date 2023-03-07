@@ -1,0 +1,5 @@
+defaults:
+  - /model/constraint_module: genie_t5 # constrained decoding with tries corresponding to the T5 tokenizeable world
+
+datamodule:
+  constrained_world: "genie_t5_tokenizeable"

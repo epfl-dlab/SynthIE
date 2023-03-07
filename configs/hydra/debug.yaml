@@ -1,0 +1,9 @@
+defaults:
+  - _default
+
+job:
+  env_set:
+    CUDA_DEVICE_ORDER: "PCI_BUS_ID"
+    HYDRA_FULL_ERROR: "1"
+# Set cuda visible devices from command line: export CUDA_VISIBLE_DEVICES=0;python ...
+# Or python run.py +hydra.job.env_set.CUDA_VISIBLE_DEVICES="3'

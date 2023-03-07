@@ -1,0 +1,23 @@
+# @package _global_
+
+# runs `num_steps` of training with `num_validation_runs` validation cycles
+# runs testing
+# the train, validation, test are all limited to (the first) `num_batches` batches (in each dataloader)
+
+defaults:
+  - default_run
+
+trainer:
+  max_steps: ${num_steps}
+  val_check_interval: ${floor_div:${num_steps}, ${num_validation_runs}}
+
+  limit_train_batches: ${num_batches}
+  limit_val_batches: ${num_batches}
+  limit_test_batches: ${num_batches}
+
+# Checkpoint should be provided for debugging inference scripts
+#model:
+#  checkpoint_path: null
+num_steps: 20
+num_batches: 5
+num_validation_runs: 2

@@ -1,0 +1,22 @@
+_target_: pytorch_lightning.Trainer
+
+devices: ???
+max_steps: ???
+
+accelerator: "gpu"
+strategy: "ddp"
+replace_sampler_ddp: true
+num_sanity_val_steps: 0
+
+accumulate_grad_batches: ???
+
+check_val_every_n_epoch: null
+# val_check_interval can be a float 0.5 (2 times per training epoch) or an integer 1000 (every 1000 training steps)
+#val_check_interval: 1000 # 1000
+val_check_interval: ${mult_int:${.accumulate_grad_batches}, 500}
+
+enable_progress_bar: True
+
+gradient_clip_val: 0.1
+gradient_clip_algorithm: "norm"
+#log_every_n_steps: ${mult_int:${.accumulate_grad_batches}, 50} # log every 50 optimizer steps

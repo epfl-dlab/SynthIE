@@ -1,0 +1,7 @@
+defaults:
+  - _from_constrained_world_default
+
+constrained_world_id: genie_t5_tokenizeable # specifies the folder name from which the constrained world is loaded
+identifier: genie_t5_tokenizeable # specifies the cache subfolder where the trie will be stored
+
+linearization_class_id: ${datamodule.linearization_class_id}

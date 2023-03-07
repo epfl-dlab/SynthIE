@@ -1,0 +1,5 @@
+defaults:
+  - /model/constraint_module: genie
+
+datamodule:
+  constrained_world: "genie"

@@ -1,0 +1,14 @@
+defaults:
+  - _default
+
+name: "rebel"
+_target_: src.datamodules.IEGenericDataModule
+batch_size: 4
+num_workers: 12
+
+dataset_target_: src.datamodules.IEGenericDataset
+data_dir: ${data_dir}/rebel
+
+filter_on_num_tokens: True
+apply_ordering_heuristic: False # Rebel is already ordered
+gzipped: True
