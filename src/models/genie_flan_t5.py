@@ -145,7 +145,7 @@ class GenIEFlanT5PL(LightningModule):
 
         if predictions is None and self._generate_predictions_in_sanity_check:
             sample_output = self._get_predictions_for_batch(batch, raw_input)
-            predictions = sample_output["grouped_decoded_sequences"]
+            predictions = sample_output["grouped_decoded_outputs"]
 
         batch_summary = []
 
@@ -295,7 +295,7 @@ class GenIEFlanT5PL(LightningModule):
 
         sample_output = self._get_predictions_for_batch(batch, raw_input)
 
-        self._sanity_check(batch, batch_idx, stage="test", predictions=sample_output["grouped_decoded_sequences"])
+        self._sanity_check(batch, batch_idx, stage="test", predictions=sample_output["grouped_decoded_outputs"])
         self._write_step_output(
             batch_idx=batch_idx, ids=ids, raw_input=raw_input, raw_target=raw_target, sample_output=sample_output
         )
@@ -304,7 +304,7 @@ class GenIEFlanT5PL(LightningModule):
             "ids": ids,
             "inputs": raw_input,
             "targets": raw_target,
-            "predictions": sample_output["grouped_decoded_sequences"],
+            "predictions": sample_output["grouped_decoded_outputs"],
         }
         return return_object
 
@@ -342,7 +342,7 @@ class GenIEFlanT5PL(LightningModule):
         sample_output,
     ):
         # ~~~ Write prediction outputs to file ~~~
-        num_return_sequences = len(sample_output["grouped_decoded_sequences"][0])
+        num_return_sequences = len(sample_output["grouped_decoded_outputs"][0])
         sequences = sample_output["generation_outputs"].sequences
         assert isinstance(sequences, torch.Tensor)
         prediction_ids = general_helpers.chunk_elements(sequences.tolist(), num_return_sequences)
@@ -356,7 +356,7 @@ class GenIEFlanT5PL(LightningModule):
             # "input_ids": sample_output["generation_inputs"]["input_ids"].tolist(),
             "target": raw_target,
             # "target_ids": target_decoder_input_ids.tolist(),
-            "prediction": sample_output["grouped_decoded_sequences"],
+            "prediction": sample_output["grouped_decoded_outputs"],
             "prediction_ids": str(prediction_ids),
         }
         # if seeds is not None:
