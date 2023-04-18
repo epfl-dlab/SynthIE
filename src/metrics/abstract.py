@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List, Set, Union, Tuple
+from typing import List, Set, Union, Tuple, Dict
 
 import numpy as np
 import torch
@@ -69,7 +69,7 @@ class IEAbstractTorchMetric(Metric, ABC):
 
     def compute_from_dataset(
         self, dataset, seed=None, bucket_metadata_dict=None, dp_centric_bucket_metadata_dict=None
-    ) -> Union[float, dict[str, float]]:
+    ) -> Union[float, Dict[str, float]]:
 
         assert not (
             bucket_metadata_dict and dp_centric_bucket_metadata_dict
