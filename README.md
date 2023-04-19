@@ -69,7 +69,7 @@ The [demo notebook](notebooks/demo.ipynb) provides a full review of the provided
 Each of the provided models is associated with a Hydra configuration file that reproduces the training. For instance, to run the training for the <code>synthie_base_fe</code> model run:
 ```
 MODEL=synthie_base_fe # synthie_base_fe, synthie_base_sc, synthie_large_fe, genie_base_fe
-python run_training.py +experiment/train=$MODEL
+python run_train.py +experiment/train=$MODEL
 ```
 
 ### Inference
@@ -91,7 +91,7 @@ The generated prediction sequences will be logged to [Weights and Biases](https:
 To compute the micro and macro performance, as well as the performance bucketed by relation frequency and number of target triplets, you only need the run's WandB path and to execute:
 
 ```
-python run_process_predictions +experiment/process_predictions=complete_rebel wandb_run_path=$WANDB_PATH
+python run_process_predictions.py +experiment/process_predictions=complete_rebel wandb_run_path=$WANDB_PATH
 ```
 
 ---
