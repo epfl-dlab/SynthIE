@@ -20,7 +20,7 @@ def get_problematic_names(names, encode_func):
     p_name2ids = {}
     for name in tqdm(names):
         ids = encode_func(name)
-        decoded_name = tokenizer.decode(ids[:-1])
+        decoded_name = tokenizer.decode(ids)
         if name != decoded_name:
             p_name2ids[name] = ids
     return p_name2ids
@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     linearization_class = utils.get_linearization_class(args.linearization_class_id)
     tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_full_name)
-    encode_func = lambda x: tokenizer(x)["input_ids"]
+    encode_func = lambda x: tokenizer(x, add_special_tokens=False)["input_ids"]
 
     entity_ids, relation_ids = cg_utils.read_constrained_world(
         constrained_world_id=args.constrained_world_id,
