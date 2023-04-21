@@ -1,0 +1,4 @@
+defaults:
+  - _llama_default
+
+pretrained_model_name_or_path: ??? # local path to the model, should be specified at runtime

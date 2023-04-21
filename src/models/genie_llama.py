@@ -7,7 +7,7 @@ import transformers
 import pandas as pd
 from pytorch_lightning import LightningModule
 from pytorch_lightning.utilities import rank_zero_only
-from transformers import T5ForConditionalGeneration, T5Tokenizer, T5Config
+from transformers import T5ForConditionalGeneration, AutoTokenizer, T5Config, LlamaForCausalLM, LlamaConfig
 from transformers.trainer_pt_utils import get_parameter_names
 from transformers.pytorch_utils import ALL_LAYERNORM_LAYERS
 
@@ -21,7 +21,7 @@ from src.utils.training_utils import label_smoothed_nll_loss
 log = utils.get_pylogger(__name__)
 
 
-class GenIEFlanT5PL(LightningModule):
+class GenIELlamaPL(LightningModule):
     def __init__(
         self,
         hparams_overrides=None,
@@ -52,10 +52,10 @@ class GenIEFlanT5PL(LightningModule):
             self._override_checkpoint_hparams(hparams_overrides)
 
         # ~~~ Load the tokenizer ~~~
-        self.tokenizer = T5Tokenizer.from_pretrained(self.hparams.pretrained_model_name_or_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(self.hparams.pretrained_model_name_or_path)
 
         # ~~~ Get the HF config ~~~
-        hf_config = T5Config.from_pretrained(self.hparams.pretrained_model_name_or_path)
+        hf_config = LlamaConfig.from_pretrained(self.hparams.pretrained_model_name_or_path)
         # Override the HF config with values from the checkpoint (if loading from checkpoint)
         if self.hparams.get("hf_config", None):
             hf_config.update(self.hparams.hf_config.to_dict())
@@ -67,11 +67,11 @@ class GenIEFlanT5PL(LightningModule):
 
         # ~~~ Load the model ~~~
         if from_pretrained:
-            self.model = T5ForConditionalGeneration.from_pretrained(
+            self.model = LlamaForCausalLM.from_pretrained(
                 self.hparams.pretrained_model_name_or_path, config=self.hparams.hf_config
             )
         else:
-            self.model = T5ForConditionalGeneration(config=self.hparams.hf_config)
+            self.model = LlamaForCausalLM(config=self.hparams.hf_config)
 
         log.info("HF model config:")
         log.info(self.hparams.hf_config)
