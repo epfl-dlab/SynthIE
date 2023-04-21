@@ -48,7 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     linearization_class = utils.get_linearization_class(args.linearization_class_id)
-    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_full_name)
     encode_func = lambda x: tokenizer(x)["input_ids"]
 
     entity_ids, relation_ids = cg_utils.read_constrained_world(
