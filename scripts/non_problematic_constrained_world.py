@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from transformers import T5Tokenizer
+from transformers import AutoTokenizer
 from tqdm import tqdm
 
 import src.utils as utils
@@ -30,12 +30,17 @@ if __name__ == "__main__":
     constrained_worlds_dir = "data/constrained_worlds"
     path_to_relid2name_mapping = "data/id2name_mappings/relation_mapping.jsonl"
     path_to_entid2name_mapping = "data/id2name_mappings/entity_mapping.jsonl"
+    tokenizer_full_name = "google/flan-t5-base"
+    tokenizer_short_name = "t5"
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--constrained_worlds_dir", type=str, default=constrained_worlds_dir)
     parser.add_argument("--path_to_relid2name_mapping", type=str, default=path_to_relid2name_mapping)
     parser.add_argument("--path_to_entid2name_mapping", type=str, default=path_to_entid2name_mapping)
     parser.add_argument("--constrained_world_id", type=str, required=True)
+    parser.add_argument("--tokenizer_full_name", type=str, default=tokenizer_full_name)
+    parser.add_argument("--tokenizer_short_name", type=str, default=tokenizer_short_name)
+
 
     parser.add_argument("--linearization_class_id", type=str, default="subject_collapsed")
 
@@ -43,7 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     linearization_class = utils.get_linearization_class(args.linearization_class_id)
-    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-base")
+    tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
     encode_func = lambda x: tokenizer(x)["input_ids"]
 
     entity_ids, relation_ids = cg_utils.read_constrained_world(
@@ -71,7 +76,7 @@ if __name__ == "__main__":
     non_problematic_entity_ids = cg_utils.get_ids_for_names(non_problematic_names, path_to_entid2name_mapping)
 
     # Create a new constrained world with the non-problematic names only
-    output_constrained_world_id = f"{args.constrained_world_id}_t5_tokenizeable"
+    output_constrained_world_id = f"{args.constrained_world_id}_{args.tokenizer_short_name}_tokenizeable"
     print("Saving the new constrained world to", os.path.join(args.constrained_worlds_dir, output_constrained_world_id))
     cg_utils.write_constrained_world(
         args.constrained_worlds_dir, output_constrained_world_id, non_problematic_entity_ids, relation_ids
