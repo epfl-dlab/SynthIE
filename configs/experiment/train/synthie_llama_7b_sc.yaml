@@ -2,7 +2,7 @@
 
 defaults:
   - override /datamodule: sdg_code_davinci_002_pc
-  - override /model: llama_base
+  - override /model: llama_7b
   - override /trainer: ddp
   - override /logger: wandb
 

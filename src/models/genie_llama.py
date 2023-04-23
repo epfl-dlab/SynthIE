@@ -53,6 +53,10 @@ class GenIELlamaPL(LightningModule):
 
         # ~~~ Load the tokenizer ~~~
         self.tokenizer = AutoTokenizer.from_pretrained(self.hparams.pretrained_model_name_or_path)
+        # set padding token to pad_token_id
+        self.tokenizer.pad_token = self.tokenizer.eos_token # llama doesn't have a pad token, so we use eos instead
+        # using the eos token as the pad token is recommended in the error message:
+        # Please select a token to use as `pad_token` `(tokenizer.pad_token = tokenizer.eos_token e.g.)`
 
         # ~~~ Get the HF config ~~~
         hf_config = LlamaConfig.from_pretrained(self.hparams.pretrained_model_name_or_path)
