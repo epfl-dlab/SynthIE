@@ -3,7 +3,7 @@
 defaults:
   - _default
   - _default_max_rebel_llama # Llama tokenizeable world + constrained decoding
-  - override /model: llama_base
+  - override /model: llama_7b
 
 datamodule:
   linearization_class_id: "fully_expanded"
