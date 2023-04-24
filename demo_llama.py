@@ -23,6 +23,9 @@ override_models_default_hf_generation_parameters = {
 texts = [
     'The Journal of Colloid and Interface Science is a bibliographic review indexed in Scopus and published by Elsevier. Its main subject is chemical engineering, and it is written in the English language. It is based in the United States, and is owned by Elsevier, the same company that owns Scopus.']
 
+"""
+[s] Journal_of_Colloid_and_Interface_Science [r] indexed in bibliographic review [o] Scopus [r] publisher [o] Elsevier [r] main subject [o] Chemical_engineering [r] language of work or name [o] English_language [r] country of origin [o] United_States [e] [s] Scopus [r] owned by [o] Elsevier [e]
+"""
 
 model_7b = GenIELlamaPL(from_pretrained=True, pretrained_model_name_or_path=
 "/mnt/u14157_ic_nlp_001_files_nfs/nlpdata1/share/models/llama_hf/7B",
@@ -87,6 +90,7 @@ model_65b.constraint_module = constraint_module
 for model in [model_7b, model_13b, model_30b, model_65b]:
     output = model.sample(texts,
                           convert_to_triplets=True,
+                          return_generation_outputs=True,
                           **override_models_default_hf_generation_parameters)
     print(model.hparams.pretrained_model_name_or_path.split("/")[-1])
     pprint(output['grouped_decoded_outputs'][0])
