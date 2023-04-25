@@ -14,7 +14,7 @@ from src.constrained_generation import IEConstrainedGeneration
 DATA_DIR = "./data"
 
 override_models_default_hf_generation_parameters = {
-    "num_beams": 10,
+    "num_beams": 1,
     "num_return_sequences": 1,
     "return_dict_in_generate": True,
     "output_scores": True,
@@ -32,13 +32,13 @@ texts= ["The first president of the United States was George Washington."]
 #
 ##########################
 
-model_7b = GenIELlamaPL(from_pretrained=True, pretrained_model_name_or_path="/dlabdata1/llama_hf/7B",
+model_7b = GenIELlamaPL(from_pretrained=True, pretrained_model_name_or_path="/home/saibo/Research/llama-7B",
                         linearization_class_id="fully_expanded", default_collator_parameters=
-                        {"max_input_length": 250, "padding": "longest", "truncation": True},
-                        inference={"hf_generation_params": {"num_beams": 10, "num_return_sequences": 10,
+                        {"max_input_length": 24, "padding": "longest", "truncation": True},
+                        inference={"hf_generation_params": {"num_beams": 1, "num_return_sequences": 1,
                                                             "early_stopping": False, "encoder_no_repeat_ngram_size": 0
                             , "no_repeat_ngram_size": 0, "temperature": 1.0, "length_penalty": 1.0,
-                                                            "max_new_tokens": 256}})
+                                                            "max_new_tokens": 24}})
 
 params = {}
 params['constrained_worlds_dir'] = os.path.join(DATA_DIR, "constrained_worlds")

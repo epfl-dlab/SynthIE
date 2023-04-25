@@ -223,6 +223,7 @@ def _get_prefix_allowed_tokens_fn(model, entity_trie, relation_trie, linearizati
             return []
 
         state_id, suffix_start_idx = _get_state_id_and_suffix_start(sent_ids)
-        return get_allowed_tokens(state_id, sent_ids[suffix_start_idx:])
+        allowed_tokens = get_allowed_tokens(state_id, sent_ids[suffix_start_idx:])
+        return allowed_tokens
 
     return prefix_allowed_tokens_fn

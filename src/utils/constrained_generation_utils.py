@@ -98,6 +98,7 @@ def get_ids_for_names(names, path_to_name2id_mapping):
 
 def encode(text, tokenizer, keep_eos: bool):
     if keep_eos:
-        return tokenizer.encode(text)
+        raise NotImplementedError
+        # return tokenizer.encode(text)
 
-    return tokenizer.encode(text)[:-1]
+    return tokenizer.encode(text, add_special_tokens=False)
