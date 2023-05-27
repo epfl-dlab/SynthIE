@@ -80,7 +80,7 @@ MODEL=synthie_base_fe # synthie_base_fe, synthie_base_sc, synthie_large_fe, geni
 # The name of the dataset
 DATAMODULE=rebel_pc  # "rebel_pc", "sdg_code_davinci_002_pc", "sdg_text_davinci_003_pc"
 
-python run_inference.py +experiment/inference=$model datamodule=$DATAMODULE
+python run_inference.py +experiment/inference=$MODEL datamodule=$DATAMODULE
 
 # For unconstrained generation add: ++model.constraint_module=null at the end of the call
 ```
